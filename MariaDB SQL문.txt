@@ -1,0 +1,135 @@
+1. hisuniv 데이터베이스 만들기
+    create database hisuniv;
+
+2. 사용자 만들고 권한주기 (hisuniv / 123456)
+    create user 'hisuniv' identified by '123456';
+    grant all privileges on hisuniv.* to hisuniv;
+
+
+
+create table manager (
+id varchar(15) primary key,
+password varchar(15) not null 
+);
+insert into manager values ('ymc0407', 'ymc123');
+
+
+create table lcategory (
+seq int(11) primary key auto_increment,
+name varchar(100) not null
+);
+
+create table scategory (
+seq int(11) primary key auto_increment,
+name varchar(100) not null,
+lseq int(11) not null,
+constraint foreign key (lseq) references lcategory (seq) on delete cascade
+);
+
+create table board(
+seq int(11) primary key auto_increment,
+subject varchar(100) not null,
+link varchar(400) not null,
+content varchar(20000) not null,
+wdate datetime not null,
+sseq int(11) not null,
+constraint foreign key (sseq) references scategory (seq) on delete cascade
+);
+
+create table comment (
+seq int(11) primary key auto_increment,
+writer varchar(15) not null,
+password varchar(15) not null,
+content varchar(1000) not null,
+cdate datetime not null,
+cseq int(11) not null,
+constraint foreign key (cseq) references board (seq) on delete cascade
+);
+create table gallery (
+seq int(11) primary key auto_increment,
+subject varchar(30) not null,
+filename varchar(50) not null,
+wdate datetime not null
+);
+create table guestbook (
+seq int(11) primary key auto_increment,
+writer varchar(15) not null,
+password varchar(15) not null,
+content varchar(1000) not null,
+wdate datetime not null
+);
+create table user (
+seq int(11) primary key auto_increment,
+name varchar(10) not null,
+email varchar(30) not null,
+password varchar(200) not null,
+wdate datetime not null
+);
+
+
+insert into lcategory values(0, '섬');
+insert into lcategory values(0, '역사');
+
+insert into scategory values(0,'대마도-1',1);
+insert into scategory values(0,'대마도-2',1);
+
+insert into scategory values(0,'고구려',2);
+insert into scategory values(0,'백제',2);
+insert into scategory values(0,'발해',2);
+
+
+insert into board values(0,'대마도는 왜 우리 땅으로 만들지 못했을까?',
+'<iframe width="956" height="538" src="https://www.youtube.com/embed/jqQWiU7HMiE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+'독도는 우리 영토임이 분명하고, 국제사회에 주장할수 있다. 하지만 대마도는 일본의 영토이다. 물론 7000 년전부터 양 지역간에는 교류가 활발했다. 고대국가 시대에 우리는 대마도를 거쳐서 일본열도로 진출하고 개척하면서 나라들을 세웠다. 대마국은 이미 3세기 전반에도 왜에 속하였다. 다만 7세기 중반까지의 왜, 또는 왜국은 현재와 같은 개념과 관계가 아니다. 나는 부여 고구려 백제 신라 가야 왜를 하나의 체제와 질서로 본다. 663년 백제가 멸망( 부흥운동의 실패 년도)한 이후에 백제유민들과 왜(670년 "일본"이라는 국호를 가짐)는 대마도 부터 나라오사카, 교토 근처)지역까지 신라군의 공격을 방어하는 산성( 해양방어체)을 쌓았다. 통일신라때도 일본은 신라역어를 설치하였고, 한때는 신라해적들이 점령을 시도한 적이 있었다. 고려말과 조선시대에는 대마도의 주민과 왜구를 회유하기 위하여 벼슬을 주었지만, 그것은 영토라는 의미가 아니다. 적어도 7세기 중반이후에 대마도는 일본의 정부가 관리하는 영토였으며, 일본문화와 언어 등을 사용하였다. 우리는 강해지기 위해서는 항상 스스로를 반성해야 한다. 누구보다도 대마도에 일찍 갔고, 이미 82년도에 갔고, 83년도에는 뗏목으로 도착하여, 조사도  했고, 서쪽 해안을 타고 내려갔었다. 이후 대마도를 한국에 본격적으로 소개시키는 역할을 했으며, 글들을 썼고, 지금도 때때로 간다. 그러한 나도 궁금하고, 의아하게 생각한다.  왜 우리는 그 가깝고도 전략적으로 가치가 탁월한 대마도를 버려두었는가를 살펴보아야 한다. 이 글을 읽는 양식있는 사람들에게 말하고 싶다. 역사를 공부하는 이유가 무엇인가? 그 가운데 하나는 자기 반성을 위해서이다. 책임은 우선 자신에게 있다. 그 다음에 남을 탓하거나 비판해야 한다. 자기 책임은 돌보지 않고, 남만 탓하는 것은 원래 우리 모습이 아니다. 독도 문제에 더 연구와 관심이 필요하고, 정말 중요한 것은 이어도 문제이다. ',
+now(),
+1);
+
+insert into board values(0,'대마도의 자연과 역사, 해적과 생존전략',
+'<iframe width="956" height="538" src="https://www.youtube.com/embed/HBnxMpjItno" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+'대마도는 한반도와 일본열도 사이에 있지만, 지리적으로는 부산과 50여 KM에 불과하다. 한민족이 일본열도로 진출하는데, 필수적인 경유지였다. 그래서 일본의 창세신화와 건국신화에는 대마도가 등장한다. 그런데 원시림때문에 식량생산이 불가능하고, 반면에 복잡한 해안덕분에 해양세력이 성장했다. 고려와 조선은 대마도 주민들에게는 주로 식량과 문화의 보급지였으며, 때로는 약탈지였다. 우리조상들은 대마도를 점령해서 영토로 만들지 못했고,  그 때문에 침략이나 약탈을 당했다.    "동아지중해와 고대일본" "한국해양사"  "해모수" 등의 책과 논문들을 참고하였습니다.',
+now(),
+2);
+
+
+insert into board values(0,'고구려 이야기 1부, 21세기 부국 강병 문화 모델',
+'<iframe width="956" height="538" src="https://www.youtube.com/embed/tw4fFMZpHtM?list=PLg6QPTLBOCplTFheT6WX9ZMP6L4yupGt8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+'고구려는 우리 역사에서 가장 긍정적인 역할과 위상을 가진 국가이다.  막강한 군사력을 보유한 유목민족들과 정치력과 경제력문화력을 보유한 중국인들과 경쟁하고,  전쟁을 벌이면서도 700년 이상 동아시아의 강국으로 존재하였다. 또한 외세를 막아주는 방파제 역할을 하였다.  대규모의 자원지대를 확보하고 해양을 활용한 무역활동을 활발하게 하여 경제력이 뛰어났으며, 제련술 토목공학 등의 기술력과 산업이 발달했다. 또한 철과 말을 활용하여 군사력이 강력했다. 뿐만아니라 뛰어난 문화국가로서 백제와 신라 가야 왜 말갈 등에게 문화를 전수해주었다.  우리는 고구려의 실상과 가치에 대하여 잘 알고 있지 못한다.  고구려 전문학자로서 사료와 유물, 현장조사그리고 다양한 이론들을 적용하여 고구려의 가치와 역할을 새롭게 밝혀낸다.   1부는 고구려는 지금 한민족에게 어떤 의미를 지니고 있고, 필요한 가를 살펴본다.',
+now(),
+3);
+
+insert into board values(0,'고구려 이야기 2부. 탄생과 발전, 원조선 계승성과 부여 적통론',
+'<iframe width="956" height="538" src="https://www.youtube.com/embed/rX4z54D6l9Q?list=PLg6QPTLBOCplTFheT6WX9ZMP6L4yupGt8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+'원(고)조선을 쓰러뜨린 한나라는  서북방에서 흉노의 압박을 받고, 내부에서 갈등이 벌어지고 있었다. 이러한 국제질서 속에서 한민족은 다시 복국운동을 펼쳤고, 대표적인 소국으로서 한족을 물리치는 대표국가로서 북경근처까지 공격하였다. 한편 . 부여계의 정통의식을 표방하며 안에서는 다른 소국들과 통일전쟁을 벌여 확장하여 강력한 국가로 성장하였다. ( 윤명철의 "고구려, 역사에서 미래로" 외에 10여권의 저서 참조)',
+now(),
+3);
+
+insert into board values(0,'삼국통일전쟁 2- 백제 왜연합군의 백강구 해전서 대패. 왜군 27,000명 전사, 왜선 400척 불탐.',
+'<iframe width="956" height="538" src="https://www.youtube.com/embed/kqtRH31Rd6I?list=PLg6QPTLBOCpkSCIlVM2ssy0q7pgmPR5Qz" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+'백제는 육전이 아니라 기동성과 잠행성, 급습성을 특성으로 한 해군의 원거리 상륙작전에 일거의 타격을 받고 몇일 만에 무너졌다. 이 같은 원거리 해상이동과 대규모의 상륙작전은 새로운 양상으로 기존의 전쟁방식에 새로운 변화를 가져왔다. 이제 해양전은 전쟁의 승패뿐 만 아니라 한 나라의 운명을 결정짓는 무서운 위력을 발휘하였다. 이렇게 해서 동아지중해 국제대전의 완결편인 소위 삼국통일전쟁은 처음부터 격렬하게, 그리고 빠른 결과를 내었다.
+그런데 백제가 항복한 직후까지도 이 전쟁이 국제대전이며, 고수 전쟁·고당전쟁의 연결선상에 있다는 것을 주변국들이 눈치채지 못하였다. 물론 신라만은 당나라와 내통하고 있었기 때문에 예외였다. 사료를 통해서 나타난 당시의 정황은 백제의 멸망을 바라보는 고구려와 왜국의 대응이 너무나 조용했고, 신중해 보이기까지 했다.
+먼저 왜의 움직임을 살펴보자.
+백제의 복국군은 신속하게 왜에게 구원군을 요청하였다. 야마도 정권에는 백제의 영향력이 강했고, 왕자인 풍(풍장)도 머무르고 있었다. 그런데도 왜국은 개전 초기에는 사태의 심각성을 인식하지 못했다. 더구나 해전 능력이 부족하여 군대의 파견이 더뎠다.  마침내 사이메이(齊明)천황은 661년 정월 越(현재 쓰루가 지방, 고구려 사신들이 도착하던 장소)지방을 거쳐 2월에는 큐슈의 북부에 임시관청을 설치하고, 전쟁을 지휘하려는 순간에 급사해버렸다. 아들인 텐치(天智)는 같은 해 8월 군사와 무기, 식량 등을 백제군에 보냈다. 9월에는 왕자인 풍장(豊璋)이 5000명의 군사를 거느리고 귀국하여 왕이 된다. 이렇게 해서 본격적인 국제전이 벌어진 것이다. 남쪽에서는 신라와 당을 한편으로 하고, 백제와 왜의 연합군이 전투를 벌이고, 북부와 만주에서는 당군이 거느린 다국적군과 말갈을 동원한 고구려군이 육지와 바다에서 치열하게 공방전을 벌이고 있었다.
+왜국은 662년(天智 원년) 춘정월과 3월에도 화살 등 무기와 식량 등 군수물자를 보냈다. 다시 5월에는 군선 170 여 척과 많은 병사들을 파견하였다.  663년에는 2만 7천명의 군사를 파견한다. 대규모의 해상수송선단이 참여하였고, 다국적 수군끼리 격돌하는 본격적인 해양전의 양상으로 확대되었다. 개전 초기에는 해양세력이 서에서 동으로 일방적으로 이동하였지만, 이제는 남에서 북으로 해양이동과 상륙작전이 벌어지는 양상이 되었다. 나당연합군 또한 해양전을 활발하게 이용하였다. 백제 부흥군이 40여성을 수복하는 등 공세를 취하자 孫仁師는 지원군 40만의 병력을 거느린 채 바다를 건너 덕물도에 도착하였다.
+663년에 이르러 백제의 부흥군은 고구려와 공조체제를 모색하였으나 나당군은 포위망을 좁히면서 본거지인 주류성(周留城, 州柔城)을 공격하였다. 수륙양면작전을 시도하여 성을 점령한 다음에 백제와 왜의 연합수군을 격멸하려는 전략이었다. 당나라에 항복한 부여융(扶餘隆)은 수군 및 군량보급선을 거느리고 웅진강(熊津江)으로부터 백강(白江, 위치는 정확히 알 수 없으며, 금강설,홍성설,동진강설,부안설 등을 주장한다.)으로 가서 육군과 합류하여 주류성으로 향하였다. 백·왜 연합군은 웅진강 입구에 방어책을 세웠다. 드디어 8월, 대해전인 백강(白江, 白村江)전투가 벌어졌다. 당나라의 수군은 전선 170척을 거느리고 진을 쳤다. 왜군은 1000척의 배를 거느리고 백사(白沙)에 머물렀고, 백제의 정병들은 언덕에서 배를 지키고 있었다. 이 때 백제의 속국이었던 탐라의 수군도 참여했을 가능성도 있다. 양군은 백강과 바다가 만나는 지점(백강구)에서 전투를 시작하였다. 백왜 연합군은 대패해 400여 척의 전선이 불탔고, 27,000여명이 전사하였다. 결국 이 서남해 대해전에서 패배한 백제의 유민들과 왜군은 일본열도로 패주하였고, 일본 내 중요한 전략적 거점에 해양방어체제를 급속히 구축한다. 
+해군력이 훨씬 강한 나당연합군은 바다를 건너 올 가능성이 많았다. 실제로 당나라는 664년 5월에 곽무종(郭務倧)과 병사들을 보내 대마도에 상륙시켰고, 다음 해에는 수도까지 왔다가 돌아갔다. 심지어 669년에는 전후보상과 내정간섭을 요구하였다. 백제인들과 왜국인들은 적선의 본토 상륙작전을 분쇄하기 위하여 전방부터 해양방어체제를 구축해 나갔다. 664년에는 최전선인 대마도, 이끼섬(壹岐嶋), 쯔쿠시(筑紫國)에 수비병(防人)을 두고, 봉화대(烽燧臺)를 구축하였다. 또한 큐슈의 해안에 있던 정청을 20여 km 더 내륙으로 들어간 다자이후(太宰府)로 옮겼다.
+참고도서: 
+윤명철 지음: 동아지중해와 고대일본, 한민족 해양활동이야기 1, 한민족 바다를 지배하다. 한국해양사',
+now(),
+4);
+
+insert into board values(0,'발해인과 역사 1부-- 발해의 탄생, 고구려의 부활',
+'<iframe width="956" height="538" src="https://www.youtube.com/embed/QqfMNnjxzw8?list=PLg6QPTLBOCpmQM_ll-EezBndX54FTotFO" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+'발해는 다수의 고구려 유민들과 소수의 말갈인들이 주도하여 세운 고구려의 계승국가이다. 698년부터 926년까지 200여 년 동안 발전하였으며, 전성기에는 현재 한반도 북부와 만주일대, 특히 고구려의 영향력이 미약했던 연해주 일대와 흑룡강 중류 유역까지 넓은 영토를 관리하였으며, 거의 대부분의 임금들이 연호를 사용하였고, 황제의식이 강했던 자주적인 나라였고, 당나라와 특히 일본으로 왕성하게 대규모의 무역활동을 벌였으며, 아시아의 바이킹으로 부를 정도로 해양활동 능력이 막강한 나라였다. 발해는 멸망한 히우 200녀 년 동안 복국운동을 펼치기도 하였다. 이 발해를 중국은 소수 지방정권으로 격하시켜, 교육을 시키면서 세계에 홍보하고 있다. 그렇다면 우리는? 
+ 윤명철 ‘고구려, 역사에서 미래로’ 등 저서와 발해의 해양활동 등 다수의 논문 참고',
+now(),
+5);
+
+
+
+
+----------------------------- 여기까지 SQL 문 입니다 ---------------
+
+
+관리자 로그인 ( ymc0407 , ymc123 )
+강의 추가 ( 링크주소는 동영상 소스코드 복사 후 붙여 넣기 )
+
